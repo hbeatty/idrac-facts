@@ -1,0 +1,7 @@
+---
+# roles/idrac-facts/defaults/main.yml
+#
+lom_user: root
+lom_pass: pass
+drac_default_pass: calvin
+

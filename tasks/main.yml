@@ -1,0 +1,27 @@
+---
+# file: provisioning/roles/idrac-facts/tasks/main.yml
+
+# - name: Install WSMAN
+#  yum: name=wsmancli state=present
+
+- name: Get System Inventory (ignore_errors)
+  local_action: idrac username={{ lom_user }} password={{ lom_pass }}
+    hostname={{ lom_hostname }} command=GetSystemInventory
+  register: result
+  ignore_errors: yes
+
+- name: Reset Default Password
+  local_action: idrac username={{ lom_user }} new_pass={{ lom_pass }}
+                hostname={{ lom_hostname }} user_to_change={{ lom_user }}
+                password={{ drac_default_pass }} command=ResetPassword
+  when: result.failed|bool
+  notify:
+   - Get System Inventory
+
+- meta: flush_handlers
+
+- name: Get Firmware Info
+  local_action: idrac username={{ lom_user }} password={{ lom_pass }}
+    hostname={{ lom_hostname }} command=EnumerateSoftwareIdentity
+
+
