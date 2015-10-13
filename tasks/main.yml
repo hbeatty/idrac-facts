@@ -1,5 +1,5 @@
 ---
-# file: provisioning/roles/idrac-facts/tasks/main.yml
+# file: roles/idrac-facts/tasks/main.yml
 
 # - name: Install WSMAN
 #  yum: name=wsmancli state=present
